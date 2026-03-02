@@ -112,22 +112,7 @@ class ReportsPage extends StatelessWidget {
         ),
       ),
     
-     bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: const Color(0xFF4A43EC),
-        unselectedItemColor: Colors.black54,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.menu), label: "Dashboard"),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.event_seat),
-            label: "Bookings",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_shipping),
-            label: "Parcel",
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-        ],
-      ),
+   
     
     );
   }

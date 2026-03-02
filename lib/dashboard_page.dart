@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_pos_app/Payments_page.dart';
-import 'package:my_pos_app/seat_booking_page.dart';
-import 'package:my_pos_app/parcel_boking_page.dart';
 import 'package:my_pos_app/reports_page.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -15,13 +12,13 @@ class DashboardPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-        ),
+        automaticallyImplyLeading: false,
         title: const Text(
-          "DashBoard",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          "Dashboard",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         centerTitle: true,
       ),
@@ -31,73 +28,78 @@ class DashboardPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             const Text(
               "Quick Actions",
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
 
             const SizedBox(height: 12),
+
+            // FIRST ROW
             Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SeatBookingPage(),
-                      ),
-                    );
-                  },
-                  child: _quickActionCard(Icons.event_seat, "Seat Booking"),
-                ),
+                _quickActionCard(Icons.event_seat, "Seat Booking"),
                 const SizedBox(width: 15),
-
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ParcelBookingPage(),
-                      ),
-                    );
-                  },
-                  child: _quickActionCard(
-                    Icons.local_shipping,
-                    "Parcel Booking",
-                  ),
-                ),
+                _quickActionCard(Icons.local_shipping, "Parcel Booking"),
               ],
             ),
 
             const SizedBox(height: 15),
 
+            // SECOND ROW
             Row(
               children: [
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PaymentsPage()),
-                    );
-                  },
-                  child: _quickActionCard(
-                    Icons.send_to_mobile_outlined,
-                    "Payments",
-                  ),
+
+                _quickActionCard(
+                  Icons.send_to_mobile_outlined,
+                  "Payments",
                 ),
 
                 const SizedBox(width: 15),
 
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => ReportsPage()),
-                    );
-                  },
-                  child: _quickActionCard(
-                    Icons.description_outlined,
-                    "Daily Reports",
+                // DAILY REPORTS (Clickable)
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ReportsPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      height: 100,
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.15),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.description_outlined,
+                            size: 30,
+                            color: Color(0xFF4A43EC),
+                          ),
+                          SizedBox(height: 8),
+                          Text(
+                            "Daily Reports",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -120,26 +122,6 @@ class DashboardPage extends StatelessWidget {
           ],
         ),
       ),
-
-        bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: const Color(0xFF4A43EC),
-          unselectedItemColor: Colors.black54,
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.menu), 
-            label: "Dashboard"),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.event_seat),
-              label: "Bookings",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.local_shipping),
-              label: "Parcel",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person), 
-            label: "Profile"),
-          ],
-        ),
     );
   }
 
@@ -188,7 +170,10 @@ class DashboardPage extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(fontSize: 15, color: Colors.black54),
+            style: const TextStyle(
+              fontSize: 15,
+              color: Colors.black54,
+            ),
           ),
           const SizedBox(height: 8),
           Text(

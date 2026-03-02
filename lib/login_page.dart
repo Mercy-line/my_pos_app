@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_pos_app/dashboard_page.dart';
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -121,11 +121,8 @@ class _LoginPageState extends State<LoginPage> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {
-
-                    Navigator.push(
-                      context,MaterialPageRoute(builder: (context)=> const DashboardPage()),
-                    );
-                  },
+  Navigator.pushReplacementNamed(context, "/home");
+},
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 14),
                     backgroundColor: const Color(0xFF4A43EC),

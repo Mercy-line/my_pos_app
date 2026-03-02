@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'login_page.dart';
 import 'splash_screen.dart';
+import 'main_navigation.dart';
 
 void main() {
   runApp(const MyPosApp());
@@ -16,7 +17,7 @@ class MyPosApp extends StatelessWidget {
   initialRoute: "/splash",
   routes: {
     "/splash": (_) => const SplashScreen(),
-    "/home": (_) => const LoginPage(),
+    "/home": (_) => const MainNavigation(),
   },
 );
 
