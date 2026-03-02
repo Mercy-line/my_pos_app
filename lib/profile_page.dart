@@ -1,17 +1,76 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  File? _imageFile; // stores the selected image
+  late final ImagePicker _picker;
+
+  @override
+  void initState() {
+    super.initState();
+    _picker = ImagePicker(); // initialize the picker
+  }
+
+  // Show options to pick from gallery or take a new photo
+  void _showImageSourceActionSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => SafeArea(
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Pick from Gallery'),
+              onTap: () {
+                Navigator.of(context).pop();
+                _pickImage(ImageSource.gallery);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Take a Photo'),
+              onTap: () {
+                Navigator.of(context).pop();
+                _pickImage(ImageSource.camera);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Pick image from given source
+  Future<void> _pickImage(ImageSource source) async {
+    try {
+      final XFile? pickedFile = await _picker.pickImage(source: source);
+      if (pickedFile != null) {
+        setState(() {
+          _imageFile = File(pickedFile.path);
+        });
+      }
+    } catch (e) {
+      // Handle any errors
+      debugPrint("Error picking image: $e");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
-
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 1,
-        automaticallyImplyLeading: false, // no back arrow (because bottom nav exists)
+        automaticallyImplyLeading: false,
         title: const Text(
           "Profile",
           style: TextStyle(
@@ -21,18 +80,19 @@ class ProfilePage extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-
       body: SingleChildScrollView(
         child: Column(
           children: [
-
             const SizedBox(height: 20),
 
-            // Profile Image
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(
-                "https://i.pravatar.cc/300",
+            // Profile Image (tap to change)
+            GestureDetector(
+              onTap: () => _showImageSourceActionSheet(context),
+              child: CircleAvatar(
+                radius: 50,
+                backgroundImage: _imageFile != null
+                    ? FileImage(_imageFile!) as ImageProvider
+                    : const AssetImage("assets/profile_pic.png"),
               ),
             ),
 
@@ -45,34 +105,26 @@ class ProfilePage extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-
             const SizedBox(height: 5),
-
             const Text(
               "Clerk ID : CLK001",
               style: TextStyle(
                 color: Colors.grey,
               ),
             ),
-
             const SizedBox(height: 25),
 
             _sectionTitle("Personal Information"),
-
             _infoField("Full Name", "Ethan Keter Kiptoo"),
             _infoField("Phone Number", "0712345678"),
             _infoField("Email", "ethanketer12@gmail.com"),
 
             const SizedBox(height: 20),
-
             _sectionTitle("Security"),
-
             _actionButton("Change Password"),
 
             const SizedBox(height: 20),
-
             _sectionTitle("Notifications"),
-
             _actionButton("Notification Settings"),
 
             const SizedBox(height: 40),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dashboard_page.dart';
 import 'seat_booking_page.dart';
-import 'parcel_boking_page.dart';
+import 'parcel_booking_page.dart';
 import 'profile_page.dart';
 
 
